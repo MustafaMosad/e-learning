@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Three2one.elearning.dto.CourseForm;
+import com.Three2one.elearning.exception.custom.CourseAlreadyExistException;
 import com.Three2one.elearning.service.CourseManagementService;
 
 @RestController
@@ -23,7 +24,7 @@ public class CourseController {
 	private CourseManagementService courseManagementService;
 
 	@PostMapping()
-	public ResponseEntity<?> addCourse(@RequestBody @Valid CourseForm courseForm) {
+	public ResponseEntity<?> addCourse(@RequestBody @Valid CourseForm courseForm) throws CourseAlreadyExistException {
 		CourseForm courseFormDto = courseManagementService.addCourse(courseForm);
 		return ResponseEntity.ok(courseFormDto);
 	}

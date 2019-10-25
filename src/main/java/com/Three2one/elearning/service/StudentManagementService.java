@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.Three2one.elearning.dao.StudentRepository;
 import com.Three2one.elearning.dto.StudentForm;
+import com.Three2one.elearning.exception.custom.StudentAlreadyExistException;
 import com.Three2one.elearning.mapper.StudentMapper;
 import com.Three2one.elearning.model.Student;
 
@@ -27,10 +28,25 @@ public class StudentManagementService {
 	/**
 	 * 
 	 * @param studentForm
+	 * @throws StudentAlreadyExistException
 	 */
-	public void addStudent(StudentForm studentForm) {
+	public void addStudent(StudentForm studentForm) throws StudentAlreadyExistException {
 
+		if (checkIfStudentAlreadyExist(studentForm.getEmail())) {
+			throw new StudentAlreadyExistException("student with email " + studentForm.getEmail() + " already exist");
+		}
 		studentRepo.save(StudentMapper.getDao(studentForm));
+	}
+
+	/**
+	 * 
+	 * @param studentEmail
+	 * @return
+	 */
+	private boolean checkIfStudentAlreadyExist(String studentEmail) {
+
+		Student student = studentRepo.findByEmail(studentEmail);
+		return student == null ? false : true;
 	}
 
 	/**

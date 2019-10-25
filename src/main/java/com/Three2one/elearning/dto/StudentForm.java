@@ -10,20 +10,20 @@ import com.sun.istack.NotNull;
 
 public class StudentForm {
 
-	@NotEmpty
+	@NotEmpty(message = "Name is required")
 	@NotNull
 	@Size(min = 2, max = 100, message = "Name must be between 10 and 200 characters")
 	private String name;
-	@NotEmpty
+	@NotEmpty(message = "Username is required")
 	@NotNull
 	@Size(min = 2, max = 100, message = "Username must be between 10 and 200 characters")
 	private String username;
-	@NotEmpty
+	@NotEmpty(message = "Email is required")
 	@NotNull
 	@Size(min = 6, max = 100, message = "Email must be between 6 and 100 characters")
 	@Email(message = "Invalid Email Format !")
 	private String email;
-	@NotEmpty
+	@NotEmpty(message = "Password is required")
 	@NotNull
 	@Size(min = 6, max = 32, message = "Password must be between 6 and 32 characters")
 	private String password;

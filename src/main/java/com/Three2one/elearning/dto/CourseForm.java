@@ -11,20 +11,19 @@ import org.springframework.lang.NonNull;
 
 public class CourseForm {
 
-	@NotEmpty
+	@NotEmpty(message = "Name is required")
 	@NonNull
 	@Size(min = 2, max = 100, message = "Name must be between 10 and 200 characters")
 	private String name;
 	@Size(min = 10, max = 200, message = "Description must be between 10 and 200 characters")
 	private String description;
-	@NotEmpty
+	@NotEmpty(message = "Instructor is required")
 	@NonNull
 	@Size(min = 2, max = 100, message = "Instructor must be between 2 and 100 characters")
 	private String instructor;
-	@NotEmpty
 	@NonNull
 	private Date publishDate;
-	@NotEmpty
+
 	@NonNull
 	@Min(value = 1, message = "Tottal Hours should not be less than 1")
 	@Max(value = 400, message = "Tottal Hours should not be greater than 400")

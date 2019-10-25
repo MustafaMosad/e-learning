@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Three2one.elearning.dto.StudentForm;
+import com.Three2one.elearning.exception.custom.StudentAlreadyExistException;
 import com.Three2one.elearning.service.StudentManagementService;
 
 @RestController
@@ -20,7 +21,7 @@ public class StudentController {
 	private StudentManagementService studentManagementService;
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public ResponseEntity<?> register(@RequestBody @Valid StudentForm studentForm) {
+	public ResponseEntity<?> register(@RequestBody @Valid StudentForm studentForm) throws StudentAlreadyExistException {
 
 		studentManagementService.addStudent(studentForm);
 		return ResponseEntity.ok(studentForm);

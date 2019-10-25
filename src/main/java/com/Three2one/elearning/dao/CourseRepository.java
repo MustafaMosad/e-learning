@@ -9,4 +9,6 @@ import com.Three2one.elearning.model.Course;
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
 	public Course findByCourseCode(String courseCode);
+
+	public Course findByName(String courseName);
 }

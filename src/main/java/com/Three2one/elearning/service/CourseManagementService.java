@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.Three2one.elearning.dao.CourseRepository;
 import com.Three2one.elearning.dto.CourseForm;
+import com.Three2one.elearning.exception.custom.CourseAlreadyExistException;
 import com.Three2one.elearning.mapper.CourseMapper;
 import com.Three2one.elearning.model.Course;
 
@@ -37,8 +38,12 @@ public class CourseManagementService {
 	 * 
 	 * @param courseForm
 	 * @return
+	 * @throws CourseAlreadyExistException
 	 */
-	public CourseForm addCourse(CourseForm courseForm) {
+	public CourseForm addCourse(CourseForm courseForm) throws CourseAlreadyExistException {
+
+		if (checkIfCourseNameExist(courseForm.getName()))
+			throw new CourseAlreadyExistException(courseForm.getName() + " Course Already Exist");
 
 		Course course = CourseMapper.getDao(courseForm);
 		String courseCode = generateCourseCode();
@@ -48,6 +53,18 @@ public class CourseManagementService {
 
 		courseForm.setCourseCode(courseCode);
 		return courseForm;
+	}
+
+	/**
+	 * 
+	 * @param courseName
+	 * @return
+	 */
+	private boolean checkIfCourseNameExist(String courseName) {
+
+		Course course = courseRepo.findByName(courseName);
+
+		return course == null ? false : true;
 	}
 
 	/**
