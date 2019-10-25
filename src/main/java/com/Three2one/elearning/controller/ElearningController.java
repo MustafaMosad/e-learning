@@ -2,6 +2,8 @@ package com.Three2one.elearning.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,13 +24,15 @@ public class ElearningController {
 	private ELearningManagementService eLearningManagementService;
 
 	@PostMapping("/register-student-on-course")
-	public ResponseEntity<?> registerStudentOnCourse(@RequestBody StudentRegistrationForm studentRegistrationForm) {
+	public ResponseEntity<?> registerStudentOnCourse(
+			@RequestBody @Valid StudentRegistrationForm studentRegistrationForm) {
 		eLearningManagementService.registerStudentOnCourse(studentRegistrationForm);
 		return ResponseEntity.ok().build();
 	}
 
 	@PostMapping("/unregister-student-on-course")
-	public ResponseEntity<?> unregisterStudentOnCourse(@RequestBody StudentRegistrationForm studentRegistrationForm) {
+	public ResponseEntity<?> unregisterStudentOnCourse(
+			@RequestBody @Valid StudentRegistrationForm studentRegistrationForm) {
 		eLearningManagementService.unregisterStudentOnCourse(studentRegistrationForm);
 		return ResponseEntity.ok().build();
 	}
