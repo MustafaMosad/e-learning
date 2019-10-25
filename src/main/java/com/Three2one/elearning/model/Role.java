@@ -7,8 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="role")
 public class Role {
 	private Long id;
 	private String name;
@@ -44,7 +46,7 @@ public class Role {
 		return students;
 	}
 
-	public void setUsers(Set<Student> students) {
+	public void setStudents(Set<Student> students) {
 		this.students = students;
 	}
 

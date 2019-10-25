@@ -8,12 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "course")
 public class Course {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
 	private String description;
@@ -23,7 +23,6 @@ public class Course {
 	private Integer tottalHours;
 	private String courseCode;
 
-	@ManyToMany(mappedBy = "courses")
 	private Set<Student> students;
 
 	public String getName() {
@@ -74,6 +73,8 @@ public class Course {
 		this.tottalHours = tottalHours;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -82,6 +83,7 @@ public class Course {
 		this.id = id;
 	}
 
+	@ManyToMany(mappedBy = "courses")
 	public Set<Student> getStudents() {
 		return students;
 	}

@@ -12,8 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "student")
 public class Student {
 
 	private Long id;
@@ -25,8 +27,6 @@ public class Student {
 	private Date dateOfBirth;
 	private Set<Role> roles;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "student_course", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
 	private Set<Course> courses;
 
 	public Student() {
@@ -62,16 +62,6 @@ public class Student {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
 	}
 
 	public Date getRegisteredAt() {
@@ -111,6 +101,18 @@ public class Student {
 		this.dateOfBirth = dateOfBirth;
 	}
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "student_role", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "student_course", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
 	public Set<Course> getCourses() {
 		return courses;
 	}

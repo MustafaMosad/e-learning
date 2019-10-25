@@ -1,5 +1,6 @@
 package com.Three2one.elearning.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,15 @@ public class CourseManagementService {
 	 * 
 	 * @return
 	 */
-	public List<Course> getAllAvailableCourses() {
+	public List<CourseForm> getAllAvailableCourses() {
 
-		return courseRepo.findAll();
+		List<Course> courses = courseRepo.findAll();
+		List<CourseForm> coursesDtoList = new ArrayList<CourseForm>();
+
+		for (Course course : courses) {
+			coursesDtoList.add(CourseMapper.getDto(course));
+		}
+		return coursesDtoList;
 	}
 
 	/**
@@ -31,7 +38,7 @@ public class CourseManagementService {
 	 * @param courseForm
 	 * @return
 	 */
-	public String addCourse(CourseForm courseForm) {
+	public CourseForm addCourse(CourseForm courseForm) {
 
 		Course course = CourseMapper.getDao(courseForm);
 		String courseCode = generateCourseCode();
@@ -39,7 +46,8 @@ public class CourseManagementService {
 		course.setCourseCode(courseCode);
 		courseRepo.save(course);
 
-		return courseCode;
+		courseForm.setCourseCode(courseCode);
+		return courseForm;
 	}
 
 	/**
