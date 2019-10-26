@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.Three2one.elearning.exception.custom.AuthenticationException;
 import com.Three2one.elearning.exception.custom.CourseAlreadyExistException;
 import com.Three2one.elearning.exception.custom.CourseNotFoundException;
 import com.Three2one.elearning.exception.custom.StudentAlreadyExistException;
@@ -144,16 +146,46 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
 	}
 
+	@ExceptionHandler(AuthenticationException.class)
+	public ResponseEntity<ExceptionResponse> handleAuthenticationError(AuthenticationException ex) {
+
+		logger.info("Start of handleAuthenticationError");
+		List<String> messages = new ArrayList<String>();
+		messages.add(ex.getMessage());
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), HttpStatus.UNAUTHORIZED.value(),
+				HttpStatus.UNAUTHORIZED.name(), messages);
+		logger.info("End of handleAuthenticationError");
+
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
+
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<ExceptionResponse> handleAccessDenied(AccessDeniedException ex) {
+
+		logger.info("Start of handleAccessDenied");
+		List<String> messages = new ArrayList<String>();
+		messages.add("You are not authorized to access this resource");
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), HttpStatus.FORBIDDEN.value(),
+				HttpStatus.FORBIDDEN.name(), messages);
+		logger.info("End of handleAccessDenied");
+
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
+
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ExceptionResponse> handleUnknownException(Exception ex, WebRequest request) {
 
-		logger.info("Start of handleTransferNotFound");
+		logger.info("Start of handleUnknownException");
 		List<String> messages = new ArrayList<String>();
 		messages.add("Unexpected Error !");
 		logger.debug(ex.getMessage());
 		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),
 				HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), messages);
-		logger.info("End of handleTransferNotFound");
+		logger.info("End of handleUnknownException");
 
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
