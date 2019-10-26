@@ -39,7 +39,7 @@ Tools used
  How To build and Use :- 
 ------------------------- 
 
- This is maven based project so you can build it with maven using goal clean install. 
+ This is maven based project so you can build it with maven using goal clean install then run it as spring boot application. 
 
  - there is 2 types of users with different roles : 
 
