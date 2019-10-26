@@ -45,7 +45,7 @@ public class OnApplicationStartUp {
 		studentForm.setName("admin");
 		studentForm.setUsername("admin");
 		studentForm.setEmail("admin@gmail.com");
-		studentForm.setPassword("admin");
+		studentForm.setPassword("admin123");
 		studentManagementService.addAdminUser(studentForm);
 	}
 

@@ -41,7 +41,6 @@ public class Slf4jMDCFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
 			final FilterChain chain) throws java.io.IOException, ServletException {
 		try {
-			System.out.println("////////////////////////////////");
 			final String token = extractToken(request);
 			final String clientIP = extractClientIP(request);
 			final String clientUserName = extractUsernameFromToken(request);
