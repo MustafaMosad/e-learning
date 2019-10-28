@@ -70,7 +70,7 @@ public class Slf4jMDCFilter extends OncePerRequestFilter {
 		String username = null;
 		String jwtToken = null;
 
-		if (requestHeader != null) {
+		if (requestTokenHeader != null) {
 			jwtToken = requestTokenHeader.substring(7);
 			username = jwtTokenUtil.getUsernameFromToken(jwtToken);
 		}
