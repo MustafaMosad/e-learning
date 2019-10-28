@@ -34,22 +34,22 @@ public class Slf4jMDCFilter extends OncePerRequestFilter {
 	private String requestHeader;
 
 	public Slf4jMDCFilter() {
-		this.requestHeader = null;
+		this.requestHeader = "Authorization";
 	}
 
 	@Override
 	protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
 			final FilterChain chain) throws java.io.IOException, ServletException {
 		try {
-			final String token = extractToken(request);
+			final String tokenKey = generateRequestKey(request);
 			final String clientIP = extractClientIP(request);
 			final String clientUserName = extractUsernameFromToken(request);
 
 			MDC.put(mdcClientIpKey, clientIP);
-			MDC.put(mdcTokenKey, token);
+			MDC.put(mdcTokenKey, tokenKey);
 			MDC.put(mdcClientUsername, clientUserName);
 			if (!StringUtils.isEmpty(responseHeader)) {
-				response.addHeader(responseHeader, token);
+				response.addHeader(responseHeader, tokenKey);
 			}
 			chain.doFilter(request, response);
 		} finally {
@@ -65,7 +65,7 @@ public class Slf4jMDCFilter extends OncePerRequestFilter {
 	 * @return
 	 */
 	private String extractUsernameFromToken(HttpServletRequest request) {
-		final String requestTokenHeader = request.getHeader("Authorization");
+		final String requestTokenHeader = request.getHeader(requestHeader);
 
 		String username = null;
 		String jwtToken = null;
@@ -77,14 +77,10 @@ public class Slf4jMDCFilter extends OncePerRequestFilter {
 		return username;
 	}
 
-	private String extractToken(final HttpServletRequest request) {
-		final String token;
-		if (!StringUtils.isEmpty(requestHeader) && !StringUtils.isEmpty(request.getHeader(requestHeader))) {
-			token = request.getHeader(requestHeader);
-		} else {
-			token = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		}
-		return token;
+	private String generateRequestKey(final HttpServletRequest request) {
+
+		return UUID.randomUUID().toString().toUpperCase().replace("-", "");
+
 	}
 
 	private String extractClientIP(final HttpServletRequest request) {
