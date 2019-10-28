@@ -32,7 +32,7 @@ public class Swagger2Config {
 	public Docket api() {
 
 		Docket docket = new Docket(DocumentationType.SWAGGER_2).apiInfo(apiEndPointsInfo()).pathMapping("/")
-				.apiInfo(ApiInfo.DEFAULT).forCodeGeneration(true).genericModelSubstitutes(ResponseEntity.class)
+				.forCodeGeneration(true).genericModelSubstitutes(ResponseEntity.class)
 				.ignoredParameterTypes(Pageable.class).ignoredParameterTypes(java.sql.Date.class)
 				.directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
 				.directModelSubstitute(java.time.ZonedDateTime.class, Date.class)
